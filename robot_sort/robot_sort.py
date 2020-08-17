@@ -81,11 +81,13 @@ class SortingRobot:
         Turn on the robot's light
         """
         self._light = "ON"
+
     def set_light_off(self):
         """
         Turn off the robot's light
         """
         self._light = "OFF"
+
     def light_is_on(self):
         """
         Returns True if the robot's light is on and False otherwise.
@@ -96,15 +98,53 @@ class SortingRobot:
         """
         Sort the robot's list.
         """
-        # Fill this out
-        pass
+        # pick up the first item in the list
+        self.swap_item()
+
+        # while the robot can move right then move right
+        if self.can_move_right():
+            self.move_right()
+
+        # now I need to loop through until the list is sorted
+        while True:
+            # check to see if there is no itme in the robots hand or no item at that position and make a swap
+            if self.compare_item() == None:
+                self.swap_item()
+                # check if the robot can move right then move right otherwise swap
+                if self.can_move_right():
+                    self.move_right()
+                self.swap_item()
+
+            # if we can move right then move right
+            if self.can_move_right():
+                self.move_right()
+
+            # now I need to loop and compare values
+            while True:
+                # if the item the robot is holding is greater we need to swap
+                if self.compare_item() == 1:
+                    self.swap_item()
+                # if the robot reaches the end of the list he can't move right so break out
+                if self.can_move_right() == False:
+                    break
+                self.move_right()
+
+            # if there is an item in the robots hand or there is an item at that positon move the robot left
+            while self.compare_item() is not None:
+                self.move_left()
+
+            # if we can't move right anymore at this point the robot is at the end make the final swap and break the list should be sorted at this point
+            if self.can_move_right() == False:
+                self.swap_item()
+                break
 
 
 if __name__ == "__main__":
     # Test our your implementation from the command line
     # with `python robot_sort.py`
 
-    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1, 45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
+    l = [15, 41, 58, 49, 26, 4, 28, 8, 61, 60, 65, 21, 78, 14, 35, 90, 54, 5, 0, 87, 82, 96, 43, 92, 62, 97, 69, 94, 99, 93, 76, 47, 2, 88, 51, 40, 95, 6, 23, 81, 30, 19, 25, 91, 18, 68, 71, 9, 66, 1,
+         45, 33, 3, 72, 16, 85, 27, 59, 64, 39, 32, 24, 38, 84, 44, 80, 11, 73, 42, 20, 10, 29, 22, 98, 17, 48, 52, 67, 53, 74, 77, 37, 63, 31, 7, 75, 36, 89, 70, 34, 79, 83, 13, 57, 86, 12, 56, 50, 55, 46]
 
     robot = SortingRobot(l)
 
